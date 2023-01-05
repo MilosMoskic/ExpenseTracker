@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ExpenseTracker.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of Transactions</h1>
+
+<p>
+    <a asp-action="AddOrEdit" class="btn btn-success my-1">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.TitleWithIcon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormattingAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Date)*@
+                @Convert.ToDateTime(item.Date).ToString("d/MMM/yyyy")
+            </td>
+            <td>
+                <a asp-action="AddOrEdit" asp-route-id="@item.TransactionId" class="btn btn-success my-1">
+                <i class="bi bi-pencil-fill"></i>&nbsp;Edit</a>
+                @using (Html.BeginForm("Delete", "Transaction", new { id = @item.TransactionId }))
+                {
+                    <input type="submit" value="Delete" onclick="return confirm(&quot;Are sure to delete this Transaction?&quot;)"/> 
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,44 @@
+﻿@model ExpenseTracker.Models.Transaction
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4 class="mt-2">Create Transaction</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddOrEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="TransactionId" value="@Model.TransactionId"/>
+            <div class="form-group">
+                <div class="group">
+                    <label asp-for="Category" class="control-label">Category</label>
+                    <div class="form-control">
+                        @Html.DropDownList("CategoryId", new SelectList(ViewBag.Categories, "CategoryId", "TitleWithIcon"))
+                    </div>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label">Amount (RSD)</label>
+                <input asp-for="Amount" class="form-control" min="0"/>
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note " class="form-control">
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" type="date"/>
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-warning my-1">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
