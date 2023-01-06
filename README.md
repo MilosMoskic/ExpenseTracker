@@ -1,5 +1,5 @@
 # ExpenseTracker
-Simple Expense Tracker web app. <br /> You can use this web app to keep track of your expenses. <br /> This application gives users ability to add, edit and delete categories, which are used for transaction.
+Simple Expense Tracker web app. <br /> You can use this web app to keep track of your expenses. <br /> This application gives users ability to add, edit and delete categories, which are used for transactions.<br />
 Same as categories, users have ability to add, edit and delete transactions.
 
 ## Built with
@@ -42,6 +42,8 @@ Total Income, Total Expense and Balance are automatically calculated.
 ## Create Transactions Tab
 
 ![Screenshot 2023-01-06 100609](https://user-images.githubusercontent.com/93045390/210969519-29e72302-f8a0-4324-8711-8623e8214a62.png)
+
+# Author
 
 - GitHub - [@MilosMoskic](https://github.com/MilosMoskic)
 - LinkedIn - [@milos_moskic](https://www.linkedin.com/in/milosmoskic/)
