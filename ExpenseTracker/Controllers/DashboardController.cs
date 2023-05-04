@@ -3,25 +3,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using ExpenseTracker.Models;
+using Microsoft.AspNetCore.Authorization;
+using ExpenseTracker.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ExpenseTracker.Controllers
 {
+    [Authorize]
     public class DashboardController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public DashboardController(ApplicationDbContext context)
+        private readonly AuthContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public DashboardController(AuthContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<ActionResult> Index()
         {
             //Last 7 days
             DateTime StartDate = DateTime.Today.AddDays(-6);
             DateTime EndDate = DateTime.Today;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            List<Models.Transaction> SelectedTransactions = await _context.Transactions
+            List<Models.Transaction> SelectedTransactions = await _context.Transaction
                 .Include(x => x.Category)
-                .Where(y => y.Date >= StartDate && y.Date <= EndDate)
+                .Where(y => y.Date >= StartDate && y.Date <= EndDate && y.AppUserID == userId)
                 .ToListAsync();
 
             //Total Income

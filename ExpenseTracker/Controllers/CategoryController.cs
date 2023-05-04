@@ -7,14 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Data;
 using ExpenseTracker.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseTracker.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AuthContext _context;
 
-        public CategoryController(ApplicationDbContext context)
+        public CategoryController(AuthContext context)
         {
             _context = context;
         }
@@ -22,7 +24,7 @@ namespace ExpenseTracker.Controllers
         // GET: Category
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Categories.ToListAsync());
+              return View(await _context.Category.ToListAsync());
         }
 
         // GET: Category/AddOrEdit
@@ -31,12 +33,10 @@ namespace ExpenseTracker.Controllers
             if (id == 0)
                 return View(new Category());
             else
-                return View(_context.Categories.Find(id));
+                return View(_context.Category.Find(id));
         }
 
         // POST: Category/AddOrEdit
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOrEdit([Bind("CategoryId,Title,Icon,Type")] Category category)
@@ -58,14 +58,14 @@ namespace ExpenseTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
+            if (_context.Category == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _context.Category.FindAsync(id);
             if (category != null)
             {
-                _context.Categories.Remove(category);
+                _context.Category.Remove(category);
             }
             
             await _context.SaveChangesAsync();

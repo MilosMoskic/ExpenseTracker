@@ -18,6 +18,8 @@ namespace ExpenseTracker.Models
         [Column(TypeName = "nvarchar(75)")]
         public string? Note { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+        [ForeignKey("ApplicationUser")]
+        public string AppUserID { get; set; }
 
         [NotMapped]
         public string? FormattingAmount 

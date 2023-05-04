@@ -1,7 +1,9 @@
-﻿@model IEnumerable<ExpenseTracker.Models.Transaction>
+﻿@using System.Security.Claims;
+@model IEnumerable<ExpenseTracker.Models.Transaction>
 
 @{
     ViewData["Title"] = "Index";
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <h1>List of Transactions</h1>
@@ -24,11 +26,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th></th>
+            <th>
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    @if(item.AppUserID == userId){
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.TitleWithIcon)
@@ -40,7 +45,6 @@
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.Date)*@
                 @Convert.ToDateTime(item.Date).ToString("d/MMM/yyyy")
             </td>
             <td>
@@ -48,10 +52,12 @@
                 <i class="bi bi-pencil-fill"></i>&nbsp;Edit</a>
                 @using (Html.BeginForm("Delete", "Transaction", new { id = @item.TransactionId }))
                 {
-                    <input type="submit" value="Delete" onclick="return confirm(&quot;Are sure to delete this Transaction?&quot;)"/> 
+                        <input type="submit" value="Delete" onclick="return confirm(&quot;Are sure to delete this Transaction?&quot;)"/> 
                 }
             </td>
         </tr>
+    }
+
 }
     </tbody>
 </table>
