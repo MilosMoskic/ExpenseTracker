@@ -1,6 +1,5 @@
 ﻿using ExpenseTracker.Areas.Identity.Data;
 using ExpenseTracker.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
