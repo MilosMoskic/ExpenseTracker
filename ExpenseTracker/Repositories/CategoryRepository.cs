@@ -17,5 +17,10 @@ namespace ExpenseTracker.Repositories
         {
             return _context.Category.Where(c => c.CategoryId == id).FirstOrDefault();
         }
+
+        public ICollection<Category> ListAllCategories()
+        {
+            return _context.Category.OrderBy(c => c.CategoryId).ToList();
+        }
     }
 }
