@@ -3,16 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Authorization;
+using ExpenseTracker.Interfaces;
 
 namespace ExpenseTracker.Controllers
 {
     [Authorize]
     public class CategoryController : Controller
     {
+        private readonly ICategoryRepository _categoryRepository;
         private readonly AuthContext _context;
 
-        public CategoryController(AuthContext context)
+        public CategoryController(ICategoryRepository categoryRepository, AuthContext context)
         {
+            _categoryRepository = categoryRepository;
             _context = context;
         }
 
@@ -28,7 +31,7 @@ namespace ExpenseTracker.Controllers
             if (id == 0)
                 return View(new Category());
             else
-                return View(_context.Category.Find(id));
+                return View(_categoryRepository.FindCategory(id));
         }
 
         // POST: Category/AddOrEdit
