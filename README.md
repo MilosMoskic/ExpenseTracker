@@ -1,6 +1,7 @@
 # ExpenseTracker
 Simple Expense Tracker web app. <br /> You can use this web app to keep track of your expenses. <br /> This application gives users ability to add, edit and delete categories, which are used for transactions.<br />
-Same as categories, users have ability to add, edit and delete transactions.
+Same as categories, users have ability to add, edit and delete transactions. </br >
+Before using the web application, the user must log in, or if he does not have an account, he must register.
 
 ## Built with
 
@@ -8,18 +9,29 @@ Same as categories, users have ability to add, edit and delete transactions.
 - Entity Framework (EF) Core
 - Microsoft SQL Server Managment Studio
 - Dependency Injection
+- Identity Framework
 - Razor Pages
 - View Components
 - Bootstrap
 
 # Instructions
 
+Each account has its own transactions, but the categories are the same for all accounts.
 Every transaction has category that was recently added. <br />
 Transctions can be either "Expenses" or "Income". <br />
 When a transaction is created, the amount entered affects the figures displayed on the dashboard.<br />
-Total Income, Total Expense and Balance are automatically calculated.
+Total Income, Total Expense and Balance are automatically calculated. <br />
+The values displayed on the dashboard tab represent the values for that account.
 
 # Screenshots
+
+## Log In Tab
+
+![Screenshot 2023-06-25 132319](https://github.com/MilosMoskic/ExpenseTracker/assets/93045390/f45b573d-c265-4512-8ca1-ddf6274e9729)
+
+## Register Tab
+
+![Screenshot 2023-06-25 132336](https://github.com/MilosMoskic/ExpenseTracker/assets/93045390/110f20fe-81f1-4cfe-9383-5a27be25f268)
 
 ## Dashboard
 
