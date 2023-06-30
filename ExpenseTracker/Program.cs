@@ -2,12 +2,15 @@ using ExpenseTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using ExpenseTracker.Repositories;
+using ExpenseTracker.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddDbContext<AuthContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
