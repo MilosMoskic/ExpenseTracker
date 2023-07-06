@@ -4,7 +4,12 @@ namespace ExpenseTracker.Interfaces
 {
     public interface ITransactionRepository
     {
-        public Transaction FindTransaction(int id);
-        public ICollection<Transaction> ListAllTransactions();
+        Transaction FindTransaction(int id);
+        ICollection<Transaction> ListAllTransactions();
+        bool TransactionExists(int id);
+        bool CreateTransaction(Transaction transaction);
+        bool UpdateTransaction(Transaction transaction);
+        bool DeleteTransaction(Transaction transaction);
+        bool Save();
     }
 }

@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Authorization;
-using ExpenseTracker.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ExpenseTracker.Interfaces;
-using ExpenseTracker.Repositories;
 
 namespace ExpenseTracker.Controllers
 {
@@ -20,18 +11,19 @@ namespace ExpenseTracker.Controllers
     public class TransactionController : Controller
     {
         private readonly ITransactionRepository _transactionRepository;
-        private readonly AuthContext _context;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public TransactionController(ITransactionRepository transactionRepository, AuthContext context)
+        public TransactionController(ITransactionRepository transactionRepository, ICategoryRepository categoryRepository)
         {
             _transactionRepository = transactionRepository;
-            _context = context;
+            _categoryRepository = categoryRepository;
         }
 
         // GET: Transaction
         public IActionResult Index()
         {
-            return View(_transactionRepository.ListAllTransactions());
+            var titleWithCategory = _transactionRepository.ListAllTransactions();
+            return View(titleWithCategory);
         }
 
         // GET: Transaction/AddOrEdit
@@ -54,18 +46,15 @@ namespace ExpenseTracker.Controllers
             if (transaction.TransactionId == 0) 
             {
                 transaction.AppUserID = userId;
-                _context.Add(transaction);
+                _transactionRepository.CreateTransaction(transaction);
             }
             else
             {
                 transaction.AppUserID = userId;
-                _context.Update(transaction);
+                _transactionRepository.UpdateTransaction(transaction);
             }
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-            
-            PopulateCategories();
-            return View(transaction);
+
         }
 
 
@@ -74,26 +63,24 @@ namespace ExpenseTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Transaction == null)
+            if (_transactionRepository.TransactionExists(id) == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Transactions'  is null.");
             }
-            var transaction = await _context.Transaction.FindAsync(id);
-            if (transaction != null)
+            var transaction = _transactionRepository.FindTransaction(id);
+            if (_transactionRepository.TransactionExists(id) != null)
             {
-                _context.Transaction.Remove(transaction);
+                _transactionRepository.DeleteTransaction(transaction);
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         [NonAction]
         public void PopulateCategories()
         {
-            var CategoryCollection = _context.Category.ToList();
+            var CategoryCollection = _categoryRepository.ListAllCategories();
             Category DefaultCategory = new Category() { CategoryId = 0, Title = "Choose a category" };
-            CategoryCollection.Insert(0, DefaultCategory);
+            CategoryCollection.Add(DefaultCategory);
             ViewBag.Categories = CategoryCollection;
         }
     }
