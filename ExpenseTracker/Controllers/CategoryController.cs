@@ -17,13 +17,11 @@ namespace ExpenseTracker.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        // GET: Category
         public IActionResult Index()
         {
               return View( _categoryRepository.ListAllCategories());
         }
 
-        // GET: Category/AddOrEdit
         public IActionResult AddOrEdit(int id = 0)
         {
             if (id == 0)
@@ -32,7 +30,6 @@ namespace ExpenseTracker.Controllers
                 return View(_categoryRepository.FindCategory(id));
         }
 
-        // POST: Category/AddOrEdit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOrEdit([Bind("CategoryId,Title,Icon,Type")] Category category)
@@ -48,7 +45,6 @@ namespace ExpenseTracker.Controllers
             return View(category);
         }
 
-        // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -67,7 +63,5 @@ namespace ExpenseTracker.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }
