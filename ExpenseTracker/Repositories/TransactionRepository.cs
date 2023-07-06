@@ -2,6 +2,8 @@
 using ExpenseTracker.Interfaces;
 using ExpenseTracker.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseTracker.Repositories
 {
@@ -12,6 +14,22 @@ namespace ExpenseTracker.Repositories
         public TransactionRepository(AuthContext context)
         {
             _context = context;
+        }
+
+        public int CalculateTotalIncome(string appUserId)
+        {
+            List<Transaction> SelectedTransactions = TransactionsForDashboard(appUserId);
+            return SelectedTransactions
+                .Where(i => i.Category.Type == "Income")
+                .Sum(j => j.Amount);
+        }
+
+        public int CalculateTotalExpense(string appUserId)
+        {
+            List<Transaction> SelectedTransactions = TransactionsForDashboard(appUserId);
+            return SelectedTransactions
+                .Where(i => i.Category.Type == "Expense")
+                .Sum(j => j.Amount);
         }
 
         public bool CreateTransaction(Transaction transaction)
@@ -46,6 +64,16 @@ namespace ExpenseTracker.Repositories
         {
             return _context.Transaction.Any(t => t.TransactionId == id);
         }
+
+        public List<Transaction> TransactionsForDashboard(string appUserId)
+        {
+            DateTime StartDate = DateTime.Today.AddDays(-6);
+            DateTime EndDate = DateTime.Today;
+            return _context.Transaction.Include(x => x.Category)
+                .Where(y => y.Date >= StartDate && y.Date <= EndDate && y.AppUserID == appUserId)
+                .ToList();
+        }
+
 
         public bool UpdateTransaction(Transaction transaction)
         {

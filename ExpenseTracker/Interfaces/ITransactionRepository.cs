@@ -10,6 +10,9 @@ namespace ExpenseTracker.Interfaces
         bool CreateTransaction(Transaction transaction);
         bool UpdateTransaction(Transaction transaction);
         bool DeleteTransaction(Transaction transaction);
+        List<Transaction> TransactionsForDashboard(string appUserId);
+        int CalculateTotalIncome(string appUserId);
+        int CalculateTotalExpense(string appUserId);
         bool Save();
     }
 }
