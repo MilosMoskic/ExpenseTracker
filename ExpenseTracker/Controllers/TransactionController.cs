@@ -11,26 +11,27 @@ using Microsoft.AspNetCore.Authorization;
 using ExpenseTracker.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using ExpenseTracker.Interfaces;
+using ExpenseTracker.Repositories;
 
 namespace ExpenseTracker.Controllers
 {
     [Authorize]
     public class TransactionController : Controller
     {
+        private readonly ITransactionRepository _transactionRepository;
         private readonly AuthContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TransactionController(AuthContext context, UserManager<ApplicationUser> userManager)
+        public TransactionController(ITransactionRepository transactionRepository, AuthContext context)
         {
+            _transactionRepository = transactionRepository;
             _context = context;
-            _userManager = userManager;
         }
 
         // GET: Transaction
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Transaction.Include(t => t.Category);
-            return View(await applicationDbContext.ToListAsync());
+            return View(_transactionRepository.ListAllTransactions());
         }
 
         // GET: Transaction/AddOrEdit
@@ -40,7 +41,7 @@ namespace ExpenseTracker.Controllers
             if (id == 0)
                 return View(new Transaction());
             else
-                return View(_context.Transaction.Find(id));
+                return View(_transactionRepository.FindTransaction(id));
         }
 
         // POST: Transaction/Create
