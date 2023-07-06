@@ -11,12 +11,10 @@ namespace ExpenseTracker.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly AuthContext _context;
 
-        public CategoryController(ICategoryRepository categoryRepository, AuthContext context)
+        public CategoryController(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
-            _context = context;
         }
 
         // GET: Category
