@@ -2,8 +2,6 @@
 using ExpenseTracker.Interfaces;
 using ExpenseTracker.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseTracker.Repositories
 {
