@@ -42,10 +42,9 @@ namespace ExpenseTracker.Controllers
             if (ModelState.IsValid)
             {
                 if (category.CategoryId == 0)
-                    _context.Add(category);
+                    _categoryRepository.CreateCageory(category);
                 else
-                    _context.Update(category);
-                await _context.SaveChangesAsync();
+                    _categoryRepository.UpdateCategory(category);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -56,17 +55,18 @@ namespace ExpenseTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Category == null)
+            if (_categoryRepository.CategoryExists(id) == false)
             {
                 return Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
             }
-            var category = await _context.Category.FindAsync(id);
-            if (category != null)
+
+            var category = _categoryRepository.FindCategory(id);
+
+            if (_categoryRepository.CategoryExists(id) != false)
             {
-                _context.Category.Remove(category);
+                _categoryRepository.DeleteCategory(category);
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

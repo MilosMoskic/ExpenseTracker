@@ -4,7 +4,12 @@ namespace ExpenseTracker.Interfaces
 {
     public interface ICategoryRepository
     {
-        public Category FindCategory(int id);
-        public ICollection<Category> ListAllCategories();
+        Category FindCategory(int id);
+        ICollection<Category> ListAllCategories();
+        bool CategoryExists(int id);
+        bool CreateCageory(Category category);
+        bool UpdateCategory(Category category);
+        bool DeleteCategory(Category category);
+        bool Save();
     }
 }
