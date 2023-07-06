@@ -9,6 +9,7 @@ Before using the web application, the user must log in, or if he does not have a
 - Entity Framework (EF) Core
 - Microsoft SQL Server Managment Studio
 - Dependency Injection
+- Repository Pattern
 - Identity Framework
 - Razor Pages
 - View Components
