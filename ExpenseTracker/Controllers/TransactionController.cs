@@ -19,14 +19,12 @@ namespace ExpenseTracker.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        // GET: Transaction
         public IActionResult Index()
         {
             var titleWithCategory = _transactionRepository.ListAllTransactions();
             return View(titleWithCategory);
         }
 
-        // GET: Transaction/AddOrEdit
         public IActionResult AddOrEdit(int id=0)
         {
             PopulateCategories();
@@ -35,8 +33,6 @@ namespace ExpenseTracker.Controllers
             else
                 return View(_transactionRepository.FindTransaction(id));
         }
-
-        // POST: Transaction/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -57,8 +53,6 @@ namespace ExpenseTracker.Controllers
 
         }
 
-
-        // POST: Transaction/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -75,6 +69,7 @@ namespace ExpenseTracker.Controllers
             
             return RedirectToAction(nameof(Index));
         }
+
         [NonAction]
         public void PopulateCategories()
         {
