@@ -71,8 +71,6 @@ namespace ExpenseTracker.Repositories
                 .Where(y => y.Date >= StartDate && y.Date <= EndDate && y.AppUserID == appUserId)
                 .ToList();
         }
-
-
         public bool UpdateTransaction(Transaction transaction)
         {
             _context.Update(transaction);

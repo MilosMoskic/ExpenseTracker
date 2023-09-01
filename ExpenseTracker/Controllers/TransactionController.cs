@@ -4,24 +4,25 @@ using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using ExpenseTracker.Interfaces;
+using ExpenseTracker.ServInterfaces;
 
 namespace ExpenseTracker.Controllers
 {
     [Authorize]
     public class TransactionController : Controller
     {
-        private readonly ITransactionRepository _transactionRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ITransactionService _transactionService;
+        private readonly ICategoryService _categoryService;
 
-        public TransactionController(ITransactionRepository transactionRepository, ICategoryRepository categoryRepository)
+        public TransactionController(ITransactionService transactionService, ICategoryService categoryService)
         {
-            _transactionRepository = transactionRepository;
-            _categoryRepository = categoryRepository;
+            _transactionService = transactionService;
+            _categoryService = categoryService;
         }
 
         public IActionResult Index()
         {
-            var titleWithCategory = _transactionRepository.ListAllTransactions();
+            var titleWithCategory = _transactionService.ListAllTransactions();
             return View(titleWithCategory);
         }
 
@@ -31,7 +32,7 @@ namespace ExpenseTracker.Controllers
             if (id == 0)
                 return View(new Transaction());
             else
-                return View(_transactionRepository.FindTransaction(id));
+                return View(_transactionService.FindTransactionById(id));
         }
 
         [HttpPost]
@@ -42,12 +43,12 @@ namespace ExpenseTracker.Controllers
             if (transaction.TransactionId == 0) 
             {
                 transaction.AppUserID = userId;
-                _transactionRepository.CreateTransaction(transaction);
+                _transactionService.CreateTransaction(transaction);
             }
             else
             {
                 transaction.AppUserID = userId;
-                _transactionRepository.UpdateTransaction(transaction);
+                _transactionService.UpdateTransaction(transaction);
             }
             return RedirectToAction(nameof(Index));
 
@@ -57,14 +58,14 @@ namespace ExpenseTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_transactionRepository.TransactionExists(id) == null)
+            if (_transactionService.TransactionExists(id) == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Transactions'  is null.");
             }
-            var transaction = _transactionRepository.FindTransaction(id);
-            if (_transactionRepository.TransactionExists(id) != null)
+            var transaction = _transactionService.FindTransactionById(id);
+            if (_transactionService.TransactionExists(id) != null)
             {
-                _transactionRepository.DeleteTransaction(transaction);
+                _transactionService.DeleteTransaction(transaction);
             }
             
             return RedirectToAction(nameof(Index));
@@ -73,7 +74,7 @@ namespace ExpenseTracker.Controllers
         [NonAction]
         public void PopulateCategories()
         {
-            var CategoryCollection = _categoryRepository.ListAllCategories();
+            var CategoryCollection = _categoryService.ListAllCategories();
             Category DefaultCategory = new Category() { CategoryId = 0, Title = "Choose a category" };
             CategoryCollection.Add(DefaultCategory);
             ViewBag.Categories = CategoryCollection;

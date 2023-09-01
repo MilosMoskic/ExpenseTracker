@@ -4,22 +4,23 @@ using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using ExpenseTracker.Interfaces;
+using ExpenseTracker.ServInterfaces;
 
 namespace ExpenseTracker.Controllers
 {
     [Authorize]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(ICategoryService categoryService)
         {
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
         }
 
         public IActionResult Index()
         {
-              return View( _categoryRepository.ListAllCategories());
+              return View(_categoryService.ListAllCategories());
         }
 
         public IActionResult AddOrEdit(int id = 0)
@@ -27,7 +28,7 @@ namespace ExpenseTracker.Controllers
             if (id == 0)
                 return View(new Category());
             else
-                return View(_categoryRepository.FindCategory(id));
+                return View(_categoryService.GetCategoryById(id));
         }
 
         [HttpPost]
@@ -37,9 +38,9 @@ namespace ExpenseTracker.Controllers
             if (ModelState.IsValid)
             {
                 if (category.CategoryId == 0)
-                    _categoryRepository.CreateCageory(category);
+                    _categoryService.CreateCategory(category);
                 else
-                    _categoryRepository.UpdateCategory(category);
+                    _categoryService.UpdateCategory(category);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -49,16 +50,14 @@ namespace ExpenseTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_categoryRepository.CategoryExists(id) == false)
+            if (_categoryService.CategoryExists(id) == false)
             {
                 return Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
             }
 
-            var category = _categoryRepository.FindCategory(id);
-
-            if (_categoryRepository.CategoryExists(id) != false)
+            if (_categoryService.CategoryExists(id) != false)
             {
-                _categoryRepository.DeleteCategory(category);
+                _categoryService.DeleteCategory(id);
             }
 
             return RedirectToAction(nameof(Index));

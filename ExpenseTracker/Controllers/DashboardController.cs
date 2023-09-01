@@ -2,28 +2,29 @@
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using ExpenseTracker.Interfaces;
+using ExpenseTracker.ServInterfaces;
 
 namespace ExpenseTracker.Controllers
 {
     [Authorize]
     public class DashboardController : Controller
     {
-        private readonly ITransactionRepository _transactionRepository;
+        private readonly ITransactionService _transactionService;
 
-        public DashboardController(ITransactionRepository transactionRepository)
+        public DashboardController(ITransactionService transactionService)
         {
-            _transactionRepository = transactionRepository;
+            _transactionService = transactionService;
         }
         public async Task<ActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             //Total Income
-            int TotalIncome = _transactionRepository.CalculateTotalIncome(userId);
+            int TotalIncome = _transactionService.CalculateTotalIncome(userId);
             ViewBag.TotalIncome = TotalIncome.ToString("C0");
 
             //Total Expense
-            int TotalExpense = _transactionRepository.CalculateTotalExpense(userId);
+            int TotalExpense = _transactionService.CalculateTotalExpense(userId);
             ViewBag.TotalExpense = TotalExpense.ToString("C0");
 
             //Balance
