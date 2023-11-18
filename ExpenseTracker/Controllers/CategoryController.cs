@@ -23,6 +23,16 @@ namespace ExpenseTracker.Controllers
               return View(_categoryService.ListAllCategories());
         }
 
+        public IActionResult FilteredCategoriesByIncome()
+        {
+            return View(_categoryService.FilteredCategoriesByIncome());
+        }
+
+        public IActionResult FilteredCategoriesByExpense()
+        {
+            return View(_categoryService.FilteredCategoriesByExpense());
+        }
+
         public IActionResult AddOrEdit(int id = 0)
         {
             if (id == 0)
@@ -59,7 +69,6 @@ namespace ExpenseTracker.Controllers
             {
                 _categoryService.DeleteCategory(id);
             }
-
             return RedirectToAction(nameof(Index));
         }
     }

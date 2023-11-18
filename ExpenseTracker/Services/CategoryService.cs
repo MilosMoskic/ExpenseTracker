@@ -24,6 +24,15 @@ namespace ExpenseTracker.Services
         {
             return _categoryRepository.CreateCageory(category);
         }
+        public ICollection<Category> FilteredCategoriesByIncome()
+        {
+            return _categoryRepository.FilterCategoriesByIncome();
+        }
+
+        public ICollection<Category> FilteredCategoriesByExpense()
+        {
+            return _categoryRepository.FilterCategoriesByExpense();
+        }
         public bool DeleteCategory(int id)
         {
             var categoryToDelete = _categoryRepository.FindCategory(id);

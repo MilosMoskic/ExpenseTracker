@@ -6,6 +6,8 @@ namespace ExpenseTracker.Interfaces
     {
         Category FindCategory(int id);
         ICollection<Category> ListAllCategories();
+        ICollection<Category> FilterCategoriesByIncome();
+        ICollection<Category> FilterCategoriesByExpense();
         bool CategoryExists(int id);
         bool CreateCageory(Category category);
         bool UpdateCategory(Category category);
