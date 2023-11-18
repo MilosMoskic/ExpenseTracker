@@ -16,7 +16,7 @@ namespace ExpenseTracker.Models
         [DisplayFormat(DataFormatString = "{0:c}")]
         public int Amount { get; set; }
         [Column(TypeName = "nvarchar(75)")]
-        public string? Note { get; set; }
+        public string? Note { get; set; } = "None";
         public DateTime Date { get; set; } = DateTime.Now;
         [ForeignKey("ApplicationUser")]
         public string AppUserID { get; set; }

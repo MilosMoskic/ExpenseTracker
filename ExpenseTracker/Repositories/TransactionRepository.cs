@@ -44,7 +44,7 @@ namespace ExpenseTracker.Repositories
 
         public Transaction FindTransaction(int id)
         {
-            return _context.Transaction.Where(c => c.TransactionId == id).FirstOrDefault();
+            return _context.Transaction.Include(t => t.Category).FirstOrDefault();
         }
 
         public ICollection<Transaction> ListAllTransactions()

@@ -54,6 +54,9 @@
                 {
                         <input type="submit" value="Delete" onclick="return confirm(&quot;Are sure to delete this Transaction?&quot;)"/> 
                 }
+                <a asp-action="Print" asp-route-id="@item.TransactionId" class="btn btn-success my-1">
+                    <i class="">Print</i>
+                </a>
             </td>
         </tr>
     }

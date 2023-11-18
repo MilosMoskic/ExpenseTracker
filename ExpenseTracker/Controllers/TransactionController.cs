@@ -70,6 +70,10 @@ namespace ExpenseTracker.Controllers
             
             return RedirectToAction(nameof(Index));
         }
+        public IActionResult Print(int id)
+        {
+            return View(_transactionService.FindTransactionById(id));
+        }
 
         [NonAction]
         public void PopulateCategories()
