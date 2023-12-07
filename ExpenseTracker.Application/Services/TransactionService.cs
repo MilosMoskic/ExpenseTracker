@@ -1,7 +1,6 @@
 ﻿using ExpenseTracker.Interfaces;
 using ExpenseTracker.Models;
 using ExpenseTracker.ServInterfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Services
 {

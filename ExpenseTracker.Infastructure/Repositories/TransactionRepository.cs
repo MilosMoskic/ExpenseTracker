@@ -1,4 +1,4 @@
-﻿using ExpenseTracker.Data;
+﻿using ExpenseTracker.Context;
 using ExpenseTracker.Interfaces;
 using ExpenseTracker.Models;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +44,7 @@ namespace ExpenseTracker.Repositories
 
         public Transaction FindTransaction(int id)
         {
-            return _context.Transaction.Where(c => c.TransactionId == id).FirstOrDefault();
+            return _context.Transaction.Where(t => t.TransactionId == id).Include(t => t.Category).FirstOrDefault();
         }
 
         public ICollection<Transaction> ListAllTransactions()

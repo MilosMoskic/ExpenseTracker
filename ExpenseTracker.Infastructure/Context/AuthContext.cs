@@ -3,7 +3,7 @@ using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseTracker.Data;
+namespace ExpenseTracker.Context;
 
 public class AuthContext : IdentityDbContext<ApplicationUser>
 {

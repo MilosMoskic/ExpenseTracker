@@ -1,11 +1,11 @@
-using ExpenseTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
-using ExpenseTracker.Repositories;
 using ExpenseTracker.Interfaces;
 using ExpenseTracker.ServInterfaces;
 using ExpenseTracker.Services;
+using ExpenseTracker.Repositories;
+using ExpenseTracker.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 

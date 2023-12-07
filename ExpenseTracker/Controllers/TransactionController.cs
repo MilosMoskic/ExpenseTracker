@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using ExpenseTracker.Interfaces;
 using ExpenseTracker.ServInterfaces;
 
 namespace ExpenseTracker.Controllers
@@ -50,6 +48,7 @@ namespace ExpenseTracker.Controllers
                 transaction.AppUserID = userId;
                 _transactionService.UpdateTransaction(transaction);
             }
+
             return RedirectToAction(nameof(Index));
 
         }

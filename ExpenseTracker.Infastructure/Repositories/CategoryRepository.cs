@@ -1,4 +1,4 @@
-﻿using ExpenseTracker.Data;
+﻿using ExpenseTracker.Context;
 using ExpenseTracker.Interfaces;
 using ExpenseTracker.Models;
 
@@ -40,6 +40,15 @@ namespace ExpenseTracker.Repositories
             return _context.Category.OrderBy(c => c.CategoryId).ToList();
         }
 
+        public ICollection<Category> FilterCategoriesByIncome()
+        {
+            return _context.Category.Where(c => c.Type == "Income").ToList();
+        }
+
+        public ICollection<Category> FilterCategoriesByExpense()
+        {
+            return _context.Category.Where(c => c.Type == "Expense").ToList();
+        }
         public bool Save()
         {
             var saved = _context.SaveChanges();
