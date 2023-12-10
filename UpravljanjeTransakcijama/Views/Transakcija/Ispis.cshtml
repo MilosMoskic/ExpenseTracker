@@ -1,0 +1,33 @@
+﻿@using System.Security.Claims;
+@model ExpenseTracker.Modeli.Transakcija
+
+@{
+    ViewData["Title"] = "Ispis";
+    var korisnikId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<h1>Ispis Transakcije</h1>
+
+<p>
+    <a asp-action="Index" class="btn btn-success my-1">Lista Transakcija</a>
+</p>
+
+@if (Model.AppUserID == korisnikId)
+{
+    <input type="hidden" name="TransakcijaId" value="@Model.TransakcijaId" />
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <p>Kategorija: @Html.DisplayFor(modelItem => Model.Kategorija.TipSaIkonicom)</p>
+        </li>
+        <li class="nav-item">
+            <p>Kolicina: @Html.DisplayFor(modelItem => Model.Kolicina)</p>
+        </li>
+        <li class="nav-item">
+            <p>Opis: @Html.DisplayFor(modelItem => Model.Opis)</p>
+        </li>
+        <li class="nav-item">
+            <p>Datum: @Convert.ToDateTime(Model.Datum).ToString("d/MMM/yyyy")</p>
+        </li>
+    </ul>
+}
+

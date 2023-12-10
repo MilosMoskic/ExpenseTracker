@@ -1,0 +1,45 @@
+﻿@model ExpenseTracker.Modeli.Transakcija
+
+@{
+    ViewData["Title"] = "Napravi";
+}
+
+<h4 class="mt-2">Napravi Transakciju</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DodajIliIzmeni">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="TransakcijaId" value="@Model.TransakcijaId" />
+            <div class="form-group">
+                <div class="group">
+                    <label asp-for="Kategorija" class="control-label">Kategorija</label>
+                    <br/>
+                    <div class="">
+                        @Html.DropDownList("KategorijaId", new SelectList(ViewBag.Kategorije, "KategorijaId", "TipSaIkonicom"))
+                    </div>
+                    <span asp-validation-for="KategorijaId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Kolicina" class="control-label">Kolicina (RSD)</label>
+                <input asp-for="Kolicina" class="form-control" min="0" />
+                <span asp-validation-for="Kolicina" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opis" class="control-label"></label>
+                <input asp-for="Opis " class="form-control">
+            </div>
+            <div class="form-group">
+                <label asp-for="Datum" class="control-label"></label>
+                <input asp-for="Datum" class="form-control" type="date" />
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-warning my-1">Nazad na listu</a>
+            </div>
+        </form>
+    </div>
+</div>
+

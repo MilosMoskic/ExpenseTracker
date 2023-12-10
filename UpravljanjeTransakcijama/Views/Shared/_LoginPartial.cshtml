@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ExpenseTracker.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User)) 
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Pocetna" asp-action="Index">Pocetna</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Kategorija" asp-action="Index">Kategorije</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Transakcija" asp-action="Index">Transakcije</a>
+    </li>
+    <li class="nav-item mr-auto ">
+        <a class="nav-link">Hello @UserManager.GetUserName(User)!</a>
+    </li>
+    <li>
+            <form class="nav-item mr-auto" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Pocetna", new { area = "" })">
+            <button type="submit" class="nav-link btn btn-link">Logout</button>
+        </form>
+    </li>
+}
+</ul>

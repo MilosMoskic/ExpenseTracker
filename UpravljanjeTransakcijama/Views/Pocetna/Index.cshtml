@@ -1,0 +1,37 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1 class="text-center mt-4">Upravljanje Transakcija</h1>
+<h6 class="text-center mt-4">Veb aplikacija za uprvaljanje transakcijama u poslednjih 7 dana!</h6>
+<hr />
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Ukupan Prihod</span>
+                <h1 class="fw-bold">@ViewBag.UkupniPrihod</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Ukupni Troskovi</span>
+                <h1 class="fw-bold">@ViewBag.TotalExpense</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Stanje</span>
+                <h1 class="fw-bold">@ViewBag.Stanje</h1>
+            </div>
+        </div>
+    </div>
+</div>
