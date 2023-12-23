@@ -3,6 +3,7 @@ using ExpenseTracker.Modeli;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using ExpenseTracker.Interfejsi;
+using UpravljanjeTransakcijama.Infastruktura.PoslovnaPravila;
 
 namespace ExpenseTracker.Controllers
 {
@@ -11,11 +12,13 @@ namespace ExpenseTracker.Controllers
     {
         private readonly ITransakcijaServis _transakcijaServis;
         private readonly IKategorijaServis _kategorijaServis;
+        private readonly IPoslovnaPravila _poslovnaPravila;
 
-        public TransakcijaController(ITransakcijaServis transakcijaServis, IKategorijaServis kategorijaServis)
+        public TransakcijaController(ITransakcijaServis transakcijaServis, IKategorijaServis kategorijaServis, IPoslovnaPravila poslovnaPravila)
         {
             _transakcijaServis = transakcijaServis;
             _kategorijaServis = kategorijaServis;
+            _poslovnaPravila = poslovnaPravila;
         }
 
         public IActionResult Index()
@@ -38,6 +41,12 @@ namespace ExpenseTracker.Controllers
         public async Task<IActionResult> DodajIliIzmeni([Bind("TransakcijaId,KategorijaId,Kolicina,Opis,Datum,AppUserID")] Transakcija transakcija)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!_poslovnaPravila.ProveriBrojTransakcija() == true)
+            {
+                return Content("Ne mozete imati vise od 10 transakcija.");
+            };
+
             if (transakcija.TransakcijaId == 0) 
             {
                 transakcija.AppUserID = userId;

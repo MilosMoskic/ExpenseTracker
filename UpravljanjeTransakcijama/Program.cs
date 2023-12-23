@@ -6,6 +6,7 @@ using ExpenseTracker.Repozitorijumi;
 using ExpenseTracker.Interfejsi;
 using ExpenseTracker.Kontekst;
 using ExpenseTracker.Servisi;
+using UpravljanjeTransakcijama.Infastruktura.PoslovnaPravila;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IKategorijaRepozitori, KategorijaRepozitori>();
 builder.Services.AddScoped<IKategorijaServis, KategorijaServis>();
 builder.Services.AddScoped<ITransakcijaRepozitori, TransakcijaRepozitori>();
 builder.Services.AddScoped<ITransakcijaServis, TransakcijaServis>();
+builder.Services.AddScoped<IPoslovnaPravila, PoslovnaPravila>();
 
 builder.Services.AddDbContext<KlasaKontekst>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
