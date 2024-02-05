@@ -1,6 +1,7 @@
 ﻿using ExpenseTracker.Kontekst;
 using ExpenseTracker.Interfejsi;
 using ExpenseTracker.Modeli;
+using ExpenseTracker.Areas.Identity.Data;
 
 namespace ExpenseTracker.Repozitorijumi
 {

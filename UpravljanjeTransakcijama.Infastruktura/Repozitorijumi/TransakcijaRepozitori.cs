@@ -2,6 +2,7 @@
 using ExpenseTracker.Kontekst;
 using ExpenseTracker.Modeli;
 using Microsoft.EntityFrameworkCore;
+using UpravljanjeTransakcijama.Domen.Modeli;
 
 namespace ExpenseTracker.Repozitorijumi
 {
@@ -36,6 +37,12 @@ namespace ExpenseTracker.Repozitorijumi
             return Sacuvaj();
         }
 
+        public bool NapraviTransakciju(int kategorijaID, int kolicina, string opis, DateTime datum, string appUserID)
+        {
+            _context.Database.ExecuteSqlRawAsync($"NapraviTransakciju {kategorijaID}, {kolicina}, {opis}, {datum}, {appUserID}");
+            return Sacuvaj();
+        }
+
         public bool ObrisiTransakciju(Transakcija transakcija)
         {
             _context.Remove(transakcija);
@@ -50,6 +57,15 @@ namespace ExpenseTracker.Repozitorijumi
         public ICollection<Transakcija> ListujSveTransakcije()
         {
             return _context.Transakcija.Include(t => t.Kategorija).ToList();
+        }
+
+        public ICollection<TransakcijaPogled> ListujSveTransakcijePogled()
+        {
+            return _context.TransakcijaPogledi.ToList();
+        }
+        public ICollection<Transakcija> SearchovanaTransakcija(int searchovanID)
+        {
+            return _context.Transakcija.Where(x => x.TransakcijaId == searchovanID || searchovanID == null).Include(x => x.Kategorija).ToList();
         }
 
         public bool Sacuvaj()

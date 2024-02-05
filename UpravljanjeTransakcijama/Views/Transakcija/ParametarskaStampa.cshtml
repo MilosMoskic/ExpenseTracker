@@ -1,0 +1,70 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<ExpenseTracker.Modeli.Transakcija>
+
+@{
+    ViewData["Title"] = "ParametarskaStampa";
+    var korisnikId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<h1>Lista Transakcija Po Parametru</h1>
+
+<p>
+    <a asp-action="StampaSvihTransakcija" class="btn btn-success my-1">Stampa</a>
+</p>
+
+@using(Html.BeginForm("ParametarskaStampa","Transakcija", FormMethod.Get))
+{
+    @Html.TextBox("searchovanId")<input type="submit" value="Search" />
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Kategorija)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kolicina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Opis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Datum)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model.Count() == 0)
+        {
+            <tr>
+                <td>
+                    Nema transakcije sa ovim ID-om
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                @if (item.AppUserID == korisnikId)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Kategorija.TipSaIkonicom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.KolicinaZaFormatiranje)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Opis)
+                        </td>
+                        <td>
+                            @Convert.ToDateTime(item.Datum).ToString("d/MMM/yyyy")
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

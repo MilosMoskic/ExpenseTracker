@@ -1,7 +1,11 @@
-﻿@model IEnumerable<ExpenseTracker.Modeli.Kategorija>
+﻿@using System.Security.Claims;
+@using ExpenseTracker.Areas.Identity.Data;
+@using UpravljanjeTransakcijama.Infastruktura.PoslovnaPravila;
+@model IEnumerable<ExpenseTracker.Modeli.Kategorija>
 
 @{
     ViewData["Title"] = "Index";
+    var korisnikId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <h1>Lista kategorija</h1>

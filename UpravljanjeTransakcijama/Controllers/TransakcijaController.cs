@@ -27,6 +27,20 @@ namespace ExpenseTracker.Controllers
             return View(naslovSaKategorijom);
         }
 
+        public IActionResult StampaSvihTransakcija()
+        {
+            var naslovSaKategorijom = _transakcijaServis.ListujSveTransakcije();
+            return View(naslovSaKategorijom);
+        }
+        public IActionResult ParametarskaStampaStranica()
+        {
+            return View();
+        }
+        public IActionResult ParametarskaStampa(int searchovanId)
+        {
+            var transakcijaPoIDu = _transakcijaServis.SearchovanaTransakcija(searchovanId);
+            return View(transakcijaPoIDu);
+        }
         public IActionResult DodajIliIzmeni(int id=0)
         {
             NapuniKategorije();
@@ -42,15 +56,24 @@ namespace ExpenseTracker.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (!_poslovnaPravila.ProveriBrojTransakcija() == true)
-            {
-                return Content("Ne mozete imati vise od 10 transakcija.");
-            };
+            //if (!_poslovnaPravila.ProveriBrojTransakcija() == true)
+            //{
+            //    return Content("Ne mozete imati vise od 10 transakcija.");
+            //};
+
 
             if (transakcija.TransakcijaId == 0) 
             {
-                transakcija.AppUserID = userId;
-                _transakcijaServis.NapraviTransakciju(transakcija);
+                if (transakcija.KategorijaId == 0)
+                {
+                    transakcija.AppUserID = userId;
+                    _transakcijaServis.NapraviTransakciju(transakcija.KategorijaId, transakcija.Kolicina, transakcija.Opis, transakcija.Datum, transakcija.AppUserID);
+                }
+                else
+                {
+                    transakcija.AppUserID = userId;
+                    _transakcijaServis.NapraviTransakciju(transakcija);
+                }
             }
             else
             {

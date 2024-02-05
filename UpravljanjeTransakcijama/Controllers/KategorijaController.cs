@@ -2,6 +2,7 @@
 using ExpenseTracker.Modeli;
 using Microsoft.AspNetCore.Authorization;
 using ExpenseTracker.Interfejsi;
+using ExpenseTracker.Areas.Identity.Data;
 
 namespace ExpenseTracker.Controllers
 {

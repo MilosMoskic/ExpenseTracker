@@ -14,7 +14,9 @@ public class ApplicationUser : IdentityUser
     [PersonalData]
     [Column(TypeName = "nvarchar(100)")]
     public string LastName { get; set; }
-    
+    [PersonalData]
+    public string Tip { get; set; } = "User";
+
     public int? TransakcijaId { get; set; }
     public Transakcija? Transakcija { get; set; }
 

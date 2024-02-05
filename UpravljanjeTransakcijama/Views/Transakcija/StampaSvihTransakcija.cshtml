@@ -1,0 +1,60 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using System.Security.Claims;
+@model IEnumerable<ExpenseTracker.Modeli.Transakcija>
+
+@{
+    ViewData["Title"] = "StampaSvihTransakcija";
+    var korisnikId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<h1>Lista Transakcija</h1>
+
+<p>
+    <a asp-action="Index" class="btn btn-success my-1">TabelarniPrikaz</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Kategorija)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kolicina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Opis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Datum)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.AppUserID == korisnikId)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Kategorija.TipSaIkonicom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KolicinaZaFormatiranje)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Opis)
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.Datum).ToString("d/MMM/yyyy")
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

@@ -1,4 +1,5 @@
-﻿using ExpenseTracker.Interfejsi;
+﻿using ExpenseTracker.Areas.Identity.Data;
+using ExpenseTracker.Interfejsi;
 using ExpenseTracker.Modeli;
 
 namespace ExpenseTracker.Servisi

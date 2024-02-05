@@ -1,5 +1,6 @@
 ﻿using ExpenseTracker.Interfejsi;
 using ExpenseTracker.Modeli;
+using UpravljanjeTransakcijama.Domen.Modeli;
 
 namespace ExpenseTracker.Services
 {
@@ -19,11 +20,18 @@ namespace ExpenseTracker.Services
         {
             return _transakcijaRepozitori.ListujSveTransakcije();
         }
+        public ICollection<TransakcijaPogled> ListujSveTransakcijePogled()
+        {
+            return _transakcijaRepozitori.ListujSveTransakcijePogled();
+        }
         public bool NapraviTransakciju(Transakcija transaction)
         {
             return _transakcijaRepozitori.NapraviTransakciju(transaction);
         }
-
+        public bool NapraviTransakciju(int kategorijaID, int kolicina, string opis, DateTime datum, string appUserID)
+        {
+            return _transakcijaRepozitori.NapraviTransakciju(kategorijaID, kolicina, opis, datum, appUserID);
+        }
         public bool ObrisiTransakciju(Transakcija transakcija)
         {
             return _transakcijaRepozitori.ObrisiTransakciju(transakcija);
@@ -43,6 +51,10 @@ namespace ExpenseTracker.Services
         public int IzracunajTotalniTrosak(string korisnikId)
         {
             return _transakcijaRepozitori.IzracunajTotalniTrosak(korisnikId);
+        }
+        public ICollection<Transakcija> SearchovanaTransakcija(int searchovanID)
+        {
+            return _transakcijaRepozitori.SearchovanaTransakcija(searchovanID);
         }
         public List<Transakcija> TransaAkcijeZaPocetnuStranicu(string korisnikId)
         {
